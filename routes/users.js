@@ -15,6 +15,15 @@ router.get('/', check_authentication,
     next(error)
   }
 });
+router.get('/:id',check_authentication,
+  check_authorization(constants.MOD_PERMISSION), async function(req, res, next) {
+  try {
+    let users = await userController.GetUserByID()
+    CreateSuccessRes(res, users, 200);
+  } catch (error) {
+    next(error)
+  }
+});
 router.post('/',check_authentication,
   check_authorization(constants.ADMIN_PERMISSION), async function (req, res, next) {
   try {
